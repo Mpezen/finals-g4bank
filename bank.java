@@ -180,7 +180,6 @@ public class bank {
 
                             } else if (convtrs == 'C' || convtrs == 'c') {
                                 break;
-
                             } else {
                                 jop.showMessageDialog(null, "Invalid Input!" , "Group 4 Banking Corporation", jop.ERROR_MESSAGE);
                             }
