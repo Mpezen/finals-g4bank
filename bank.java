@@ -117,6 +117,7 @@ public class bank {
             char conv = firmenu.charAt(0);
 
             if (conv == 'Q' || conv == 'q') {
+                jop.showMessageDialog(null, "Goodbye!");
                 System.exit(0);
             } else if (conv == 'S' || conv == 's') {
 
@@ -187,7 +188,7 @@ public class bank {
                                         "Account Name: " + searchedAcc.getAccName() + "\n" +
                                         "Balance: " + searchedAcc.getBalance() + "\n" +
                                         "Status: " + searchedAcc.getStatus() +
-                                        "PIN: " + searchedAcc.getPin();
+                                        "\nPIN: " + searchedAcc.getPin();
 
                                 jop.showMessageDialog(null, accountInfo, "Customer Information", jop.INFORMATION_MESSAGE);
                             } else {
@@ -200,20 +201,31 @@ public class bank {
 
 
                         }  else if (convadput == '4') {
-                            String nameChange = jop.showInputDialog(null, "Input Name or Account number: ", "Group 4 Admin", jop.QUESTION_MESSAGE);
+                            String infoChange = jop.showInputDialog(null, "CHANGE INFORMATION\nInput Name or Account number: ", "Group 4 Admin", jop.QUESTION_MESSAGE);
 
-                            accounts foundNameAcc = findAccAdmin(account, nameChange);
-                            if (foundNameAcc != null) {
+                            accounts foundinfoAcc = findAccAdmin(account, infoChange);
+                            if (foundinfoAcc != null) {
                                 jop.showMessageDialog(null, "Found Account!", "Group 4 Admin", jop.INFORMATION_MESSAGE);
-                                String NCchoice = jop.showInputDialog(null, "Change name to:", "Group 4 Admin", jop.QUESTION_MESSAGE);
 
-                                foundNameAcc.accName = NCchoice;
+                                String infochoice = jop.showInputDialog(null, "[1] -> Change name\n[2] -> Change Account number", "Group 4 Admin", jop.QUESTION_MESSAGE);
+                                char convinfo = infochoice.charAt(0);
+
+                                if(convinfo == '1') {
+                                    String NCchoice = jop.showInputDialog(null, "Change name to:", "Group 4 Admin", jop.QUESTION_MESSAGE);
+                                    foundinfoAcc.accName = NCchoice;
+                                }
+                                else if(convinfo == '2')
+                                {
+                                    String ANchoice = jop.showInputDialog(null, "Change Account Number to:", "Group 4 Admin", jop.QUESTION_MESSAGE);
+                                    foundinfoAcc.accNum = ANchoice;
+                                }
+
                             } else {
                                 jop.showMessageDialog(null, "Account NOT found!", "Group 4 Admin", jop.ERROR_MESSAGE);
                             }
                         } else if (convadput == '5') {
 
-                            String pinchange = jop.showInputDialog(null, "Input Name or Account number: ", "Group 4 Admin", jop.QUESTION_MESSAGE);
+                            String pinchange = jop.showInputDialog(null, "CHANGE PIN\nInput Name or Account number: ", "Group 4 Admin", jop.QUESTION_MESSAGE);
 
                             accounts changepinAcc = findAccAdmin(account, pinchange);
 
@@ -229,7 +241,7 @@ public class bank {
 
                         } else if (convadput == '6') {
 
-                            String admintransfer = jop.showInputDialog(null, "Input Account number or Name: ", "Group 4 Admin Banking Corporation", jop.QUESTION_MESSAGE);
+                            String admintransfer = jop.showInputDialog(null, "TRANSFER FUNDS:\nInput Account number or Name: ", "Group 4 Admin Banking Corporation", jop.QUESTION_MESSAGE);
                             accounts foundTransferAcc = findAccAdmin(account, admintransfer);
 
                             if (foundTransferAcc != null) {
@@ -264,7 +276,7 @@ public class bank {
                                 int choice = jop.showOptionDialog(null,
                                         "Account: " + statuschange.accName + "\nCurrent status: " + statuschange.status +
                                                 "\n\nSelect new status:",
-                                        "RGBC - Account Status",
+                                        "Group 4 Admin Banking Corporation",
                                         jop.DEFAULT_OPTION,
                                         jop.QUESTION_MESSAGE,
                                         null, options, options[0]);
@@ -272,7 +284,7 @@ public class bank {
                                 if (choice >= 0) {
                                     statuschange.status = options[choice];
                                     jop.showMessageDialog(null, "Status updated successfully to: " + statuschange.status,
-                                            "RGBC - Success", jop.INFORMATION_MESSAGE);
+                                            "Group 4 Admin", jop.INFORMATION_MESSAGE);
                                 }
                             }
 
@@ -300,6 +312,19 @@ public class bank {
                            just read and understand the whole thing thanks guys <3
                          */
                             } else if (convtrs == 'W' || convtrs == 'w') {
+                                String with = jop.showInputDialog(null, "WITHDRAWAL\nEnter amount to be withdrawn", "Group 4 Banking Corporation", jop.QUESTION_MESSAGE);
+                                if (with == null) continue;
+                                try {
+                                    double amt = Double.parseDouble(with);
+                                    if (amt < 100 || amt % 100 != 0 || amt > foundacc.getBalance()) {
+                                        jop.showMessageDialog(null, "Invalid amount or insufficient funds!", "Group 4 Banking Corporation", jop.ERROR_MESSAGE);
+                                    } else {
+                                        foundacc.balance -= amt;
+                                        jop.showMessageDialog(null, "Withdrawal successful!\nNew balance: " + foundacc.getBalance(), "Group 4 Banking Corporation", jop.INFORMATION_MESSAGE);
+                                    }
+                                } catch (Exception e) {
+                                    jop.showMessageDialog(null, "Invalid input!", "Group 4 Banking Corporation", jop.ERROR_MESSAGE);
+                                }
 
                             } else if (convtrs == 'D' || convtrs == 'd') {
 
