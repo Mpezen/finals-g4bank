@@ -59,6 +59,18 @@ public class bank {
         return null;
     }
 
+    static accounts findAccAdmin(ArrayList<accounts> accountlist, String input) {
+        for(accounts acc : accountlist)
+        {
+            if (acc.getAccNum().equals(input) || acc.getAccName().equals(input))
+            {
+                    return acc;
+            }
+        }
+        return null;
+    }
+
+
     static boolean findPin(accounts account, String pin) {
         if(account != null && account.getPin().equals(pin))
         {
@@ -153,6 +165,54 @@ public class bank {
                                 "( 1 ) - View Customer Information\n( 2 ) - Search Customer\n( 3 ) - Add New Customer\n" +
                                 "( 4 ) - Edit Customer Information\n( 5 ) - Change Customer Pin Number\n( 6 ) - Transfer Fund\n( 7 ) - Activate/Block Account\n" +
                                 "( X ) - Exit", "Group 4 Admin", jop.QUESTION_MESSAGE);
+
+                        char convadput = adput.charAt(0);
+
+                        if(convadput == '1')
+                        {
+
+                        }
+                        else if(convadput == '2')
+                        {
+
+                        }
+                        else if(convadput == '3')
+                        {
+
+                        }
+                        else if(convadput == '3')
+                        {
+
+                        }
+                        else if(convadput == '4')
+                        {
+                                String nameChange = jop.showInputDialog(null, "Input Name or Account number: ", "Group 4 Admin", jop.QUESTION_MESSAGE);
+
+                                accounts foundAnyAcc = findAccAdmin(account, nameChange);
+                                if(foundAnyAcc != null)
+                                {
+                                    jop.showMessageDialog(null, "Found Account!", "Group 4 Admin",jop.INFORMATION_MESSAGE);
+                                    String NCchoice = jop.showInputDialog(null, "", "Group 4 Admin", jop.QUESTION_MESSAGE);
+
+                                    foundAnyAcc.accName = NCchoice;
+                                }
+                                else
+                                {
+                                    jop.showMessageDialog(null, "Account NOT found!", "Group 4 Admin",jop.ERROR_MESSAGE);
+                                }
+                        }
+                        else if(convadput == '5')
+                        {
+
+                        }
+                        else if(convadput == '6')
+                        {
+
+                        }
+                        else
+                        {
+                            jop.showMessageDialog(null, "Goodbye " + foundacc.getAccName() "!", "Group 4 Admin Banking Corporation", jop.PLAIN_MESSAGE);
+                        }
 
                     }
 
