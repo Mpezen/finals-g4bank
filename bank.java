@@ -122,7 +122,7 @@ public class bank {
 
                 // OUTPUT #2
                 String secmenu = jop.showInputDialog(null, "                 Input Account Number\n" +
-                                "           FORMAT -> xxxx-xxxx-xxxx-xxxx"
+                                "           FORMAT -> xxxx-xxxx-xxxx"
                         , "Group 4 Banking Corporation", jop.PLAIN_MESSAGE);
 
                 accounts foundacc = findAcc(account, secmenu);
@@ -158,62 +158,129 @@ public class bank {
                     }
 
                     // OUTPUT #5 ADMIN CONTROLS
-                    if(foundacc.status == "Admin")
-                    {
+                    if(foundacc.status == "Admin") {
                         // WALA PANG FUNCTION OR ANY KIND OF THING ONLY SHELL
-                        String adput = jop.showInputDialog(null, "What would you like to do?\n" +
-                                "( 1 ) - View Customer Information\n( 2 ) - Search Customer\n( 3 ) - Add New Customer\n" +
-                                "( 4 ) - Edit Customer Information\n( 5 ) - Change Customer Pin Number\n( 6 ) - Transfer Fund\n( 7 ) - Activate/Block Account\n" +
-                                "( X ) - Exit", "Group 4 Admin", jop.QUESTION_MESSAGE);
+                        boolean adminlop = true;
+                        while (adminlop){
+                            String adput = jop.showInputDialog(null, "What would you like to do?\n" +
+                                    "( 1 ) - View Customer Information\n( 2 ) - Search Customer\n( 3 ) - Add New Customer\n" +
+                                    "( 4 ) - Edit Customer Information\n( 5 ) - Change Customer Pin Number\n( 6 ) - Transfer Fund\n( 7 ) - Activate/Block Account\n" +
+                                    "( X ) - Exit", "Group 4 Admin", jop.QUESTION_MESSAGE);
 
                         char convadput = adput.charAt(0);
 
-                        if(convadput == '1')
-                        {
+                        if (convadput == '1') {
 
-                        }
-                        else if(convadput == '2')
-                        {
+                            // SHIAO OR RASONABLE
 
-                        }
-                        else if(convadput == '3')
-                        {
 
-                        }
-                        else if(convadput == '3')
-                        {
 
-                        }
-                        else if(convadput == '4')
-                        {
-                                String nameChange = jop.showInputDialog(null, "Input Name or Account number: ", "Group 4 Admin", jop.QUESTION_MESSAGE);
 
-                                accounts foundAnyAcc = findAccAdmin(account, nameChange);
-                                if(foundAnyAcc != null)
-                                {
-                                    jop.showMessageDialog(null, "Found Account!", "Group 4 Admin",jop.INFORMATION_MESSAGE);
-                                    String NCchoice = jop.showInputDialog(null, "", "Group 4 Admin", jop.QUESTION_MESSAGE);
 
-                                    foundAnyAcc.accName = NCchoice;
+                        } else if (convadput == '2') {
+                            String search = jop.showInputDialog(null, "Enter the Customer's Name or Account Number:", "Group 4 Admin", jop.QUESTION_MESSAGE);
+
+                            accounts searchedAcc= findAccAdmin(account, search);
+
+                            if (searchedAcc != null) {
+                                String accountInfo = "Account Number: " + searchedAcc.getAccNum() + "\n" +
+                                        "Account Name: " + searchedAcc.getAccName() + "\n" +
+                                        "Balance: " + searchedAcc.getBalance() + "\n" +
+                                        "Status: " + searchedAcc.getStatus() +
+                                        "PIN: " + searchedAcc.getPin();
+
+                                jop.showMessageDialog(null, accountInfo, "Customer Information", jop.INFORMATION_MESSAGE);
+                            } else {
+                                jop.showMessageDialog(null, "Account not found! Please check the name and account number.", "Group 4 Admin", jop.ERROR_MESSAGE);
+                            }
+                        } else if (convadput == '3') {
+
+                            // SHIAO OR RASONABLE
+
+
+
+                        }  else if (convadput == '4') {
+                            String nameChange = jop.showInputDialog(null, "Input Name or Account number: ", "Group 4 Admin", jop.QUESTION_MESSAGE);
+
+                            accounts foundNameAcc = findAccAdmin(account, nameChange);
+                            if (foundNameAcc != null) {
+                                jop.showMessageDialog(null, "Found Account!", "Group 4 Admin", jop.INFORMATION_MESSAGE);
+                                String NCchoice = jop.showInputDialog(null, "Change name to:", "Group 4 Admin", jop.QUESTION_MESSAGE);
+
+                                foundNameAcc.accName = NCchoice;
+                            } else {
+                                jop.showMessageDialog(null, "Account NOT found!", "Group 4 Admin", jop.ERROR_MESSAGE);
+                            }
+                        } else if (convadput == '5') {
+
+                            String pinchange = jop.showInputDialog(null, "Input Name or Account number: ", "Group 4 Admin", jop.QUESTION_MESSAGE);
+
+                            accounts changepinAcc = findAccAdmin(account, pinchange);
+
+                            if(changepinAcc != null) {
+
+                                String newpin = jop.showInputDialog(null, "Current pin: " + changepinAcc.getPin() + "\nInput New Pin for " + changepinAcc.getAccName() + " : ", "Group 4 Admin", jop.QUESTION_MESSAGE);
+                                changepinAcc.pin = newpin;
+                            }
+                            else{
+                                jop.showMessageDialog(null, "Account NOT found!", "Group 4 Admin", jop.ERROR_MESSAGE);
+                            }
+
+
+                        } else if (convadput == '6') {
+
+                            String admintransfer = jop.showInputDialog(null, "Input Account number or Name: ", "Group 4 Admin Banking Corporation", jop.QUESTION_MESSAGE);
+                            accounts foundTransferAcc = findAccAdmin(account, admintransfer);
+
+                            if (foundTransferAcc != null) {
+                                jop.showMessageDialog(null, "Found Account!", "Group 4 Admin", jop.INFORMATION_MESSAGE);
+                                String admintransferfund = jop.showInputDialog(null, "Enter amount to transfer:", "Group 4 Admin", jop.QUESTION_MESSAGE);
+                                int adminparsedtransfer = Integer.parseInt(admintransferfund);
+
+                                foundTransferAcc.balance += adminparsedtransfer;
+
+                                jop.showMessageDialog(null, "Transferred " + adminparsedtransfer + " to " + foundTransferAcc.getAccName() +
+                                        "\nBalance is now " + foundTransferAcc.getBalance(), "Group 4 Admin Banking Corporation", jop.INFORMATION_MESSAGE);
+
+                            } else {
+                                jop.showMessageDialog(null, "Account NOT found!", "Group 4 Admin", jop.ERROR_MESSAGE);
+                            }
+
+                        }else if (convadput == '7') {
+
+                            String adminstatus = jop.showInputDialog(null,
+                                    "ACTIVATE/BLOCK ACCOUNT\n\nEnter account number or Name:",
+                                    "RGBC - Account Status", jop.PLAIN_MESSAGE);
+
+                            if (adminstatus == null) return;
+
+                            accounts statuschange = findAccAdmin(account , adminstatus);
+
+                            if (statuschange == null) {
+                                jop.showMessageDialog(null, "Account not found!", "Error",
+                                        jop.ERROR_MESSAGE);
+                            } else {
+                                String[] options = {"Active", "Blocked"};
+                                int choice = jop.showOptionDialog(null,
+                                        "Account: " + statuschange.accName + "\nCurrent status: " + statuschange.status +
+                                                "\n\nSelect new status:",
+                                        "RGBC - Account Status",
+                                        jop.DEFAULT_OPTION,
+                                        jop.QUESTION_MESSAGE,
+                                        null, options, options[0]);
+
+                                if (choice >= 0) {
+                                    statuschange.status = options[choice];
+                                    jop.showMessageDialog(null, "Status updated successfully to: " + statuschange.status,
+                                            "RGBC - Success", jop.INFORMATION_MESSAGE);
                                 }
-                                else
-                                {
-                                    jop.showMessageDialog(null, "Account NOT found!", "Group 4 Admin",jop.ERROR_MESSAGE);
-                                }
-                        }
-                        else if(convadput == '5')
-                        {
+                            }
 
+                        } else if (convadput == 'x' || convadput == 'X') {
+                            adminlop = false;
+                            jop.showMessageDialog(null, "Goodbye " + foundacc.getAccName() + "!", "Group 4 Admin Banking Corporation", jop.PLAIN_MESSAGE);
                         }
-                        else if(convadput == '6')
-                        {
-
-                        }
-                        else
-                        {
-                            jop.showMessageDialog(null, "Goodbye " + foundacc.getAccName() "!", "Group 4 Admin Banking Corporation", jop.PLAIN_MESSAGE);
-                        }
-
+                    }
                     }
 
                     // OUTPUT #3 MGA TRANSSACTION
