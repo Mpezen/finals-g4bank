@@ -205,6 +205,7 @@ public class bank
                                     String newAccName = jop.showInputDialog(null, "Enter account holder name:", "Add New Customer", jop.QUESTION_MESSAGE);
                                     String newBalanceStr = jop.showInputDialog(null, "Enter initial balance:", "Add New Customer", jop.QUESTION_MESSAGE);
                                     String newPin = jop.showInputDialog(null, "Enter PIN (4 digits):", "Add New Customer", jop.QUESTION_MESSAGE);
+                                    String newStatus = jop.showInputDialog(null, "Enter Status (Active, Blocked, Admin)", "Add New Customer", jop.QUESTION_MESSAGE);
 
                                     double newBalance = Double.parseDouble(newBalanceStr);
 
@@ -213,13 +214,13 @@ public class bank
                                     accName.add(newAccName);
                                     balance.add(newBalance);
                                     pin.add(newPin);
-                                    status.add("Active");
+                                    status.add(newStatus);
 
                                     jop.showMessageDialog(null, "New customer added successfully!\n" +
                                             "Account Number: " + newAccNum + "\n" +
                                             "Account Name: " + newAccName + "\n" +
                                             "Initial Balance: " + newBalance + "\n" +
-                                            "Status: Active", "Success", jop.INFORMATION_MESSAGE);
+                                            "Status: " + newStatus, "Group 4 Admin Create Account Success", jop.INFORMATION_MESSAGE);
                                 }
 
                             } else if (convadput == '4') {
@@ -286,7 +287,7 @@ public class bank
                             }
                              else if (convadput == '7')
                              {
-                                String adminstatus = jop.showInputDialog(null, "ACTIVATE/BLOCK ACCOUNT\n\nEnter account number or Name:",  "Group 4: Banking Corporation", jop.PLAIN_MESSAGE);
+                                String adminstatus = jop.showInputDialog(null, "ACTIVATE/BLOCK/ADMIN\n\nEnter account number or Name:",  "Group 4: Admin", jop.PLAIN_MESSAGE);
 
                                 int statuschangeIndex = findAccAdmin(adminstatus);
 
@@ -295,7 +296,7 @@ public class bank
                                    }
                                   else
                                    {
-                                     String[] options = {"Active", "Blocked"};
+                                     String[] options = {"Active", "Blocked", "Admin"};
                                     int choice = jop.showOptionDialog(null,
                                             "Account: " + accName.get(statuschangeIndex) + "\nCurrent status: " + status.get(statuschangeIndex) +
                                                     "\n\nSelect new status:",
@@ -331,10 +332,10 @@ public class bank
                             char convtrs = transact.charAt(0);
 
                             // ALL THE OUTPUT #4 BANKING KENEME
-                            if (convtrs == 'B')
+                            if (convtrs == 'B' || convtrs == 'b')
                             {
 
-                                jop.showMessageDialog(null, "Account Balance: " + balance.get(foundaccIndex), "Balance Inquiry", jop.INFORMATION_MESSAGE);
+                                jop.showMessageDialog(null, "Account Number: " + accNum.get(foundaccIndex) + "\n\nAccount Name: " + accName.get(foundaccIndex) + "\n\nAccount Balance: " + balance.get(foundaccIndex), "Group 4 Banking Corporation: Balance Inquiry", jop.INFORMATION_MESSAGE);
 
                             }
                             else if (convtrs == 'W' || convtrs == 'w')
@@ -342,43 +343,63 @@ public class bank
 
                                 String withdrawAmount = jop.showInputDialog(null, "Withdrawn amount should not be lower than 100 pesos and should not be insufficient\nValid amount is 100 denomination." +
                                         "\nExample: 100, 200, 1700" +
-                                        "\nEnter amount to withdraw:", "Group 4: Banking Corporation Withdrawal", jop.QUESTION_MESSAGE);
-                                double amount = Double.parseDouble(withdrawAmount);
+                                        "\n\nEnter amount to withdraw:", "Group 4: Banking Corporation Withdrawal", jop.QUESTION_MESSAGE);
+                                double wdamount = Double.parseDouble(withdrawAmount);
 
-                                if(amount <= balance.get(foundaccIndex) && amount % 100 == 0)
+                                if(wdamount <= balance.get(foundaccIndex) && wdamount % 100 == 0)
                                 {
-                                    balance.set(foundaccIndex, balance.get(foundaccIndex) - amount);
-                                    jop.showMessageDialog(null, "Withdrawal successful!\nNew balance: " + balance.get(foundaccIndex), "Withdrawal", jop.INFORMATION_MESSAGE);
+                                    balance.set(foundaccIndex, balance.get(foundaccIndex) - wdamount);
+                                    jop.showMessageDialog(null, "Withdrawal successful!\nNew balance: " + balance.get(foundaccIndex), "Group 4: Banking Corporation Withdraw", jop.INFORMATION_MESSAGE);
 
                                 }
-                                else if (amount % 100 != 0)
+                                else if (wdamount % 100 != 0)
                                 {
-                                    jop.showMessageDialog(null, "Insufficient funds!", "Error", jop.ERROR_MESSAGE);
+                                    jop.showMessageDialog(null, "Invalid Input only 100 Denomination!", "Withdraw Error", jop.ERROR_MESSAGE);
 
+                                }
+                                else
+                                {
+                                    jop.showMessageDialog(null, "Insufficient amount!", "Withdraw Error", jop.ERROR_MESSAGE);
                                 }
                             }
                             else if (convtrs == 'D' || convtrs == 'd')
                             {
-                                String depositAmount = jop.showInputDialog(null, "Enter amount to deposit:", "Deposit", jop.QUESTION_MESSAGE);
-                                double amount = Double.parseDouble(depositAmount);
-                                balance.set(foundaccIndex, balance.get(foundaccIndex) + amount);
-                                jop.showMessageDialog(null, "Deposit successful!\nNew balance: " + balance.get(foundaccIndex), "Deposit", jop.INFORMATION_MESSAGE);
+                                String depositAmount = jop.showInputDialog(null, "Deposit should not be lower than 100.\n\nEnter amount to deposit:", "Group 4: Banking Corporation Deposit", jop.QUESTION_MESSAGE);
+                                double depamount = Double.parseDouble(depositAmount);
+
+                                if(depamount < 100)
+                                {
+                                   jop.showMessageDialog(null, "Deposit Amount invalid!\n\n Deposit amount should be higher than 100.", "Deposit Error", jop.ERROR_MESSAGE);
+                                }
+                                else
+                                {
+                                    balance.set(foundaccIndex, balance.get(foundaccIndex) + depamount);
+                                    jop.showMessageDialog(null, "Deposit Successful!\n\n Your Balance is now: " + balance.get(foundaccIndex), "Group 4: Banking Corporation Deposit", jop.INFORMATION_MESSAGE);
+                                }
+
                             }
                             else if (convtrs == 'T' || convtrs == 't')
                             {
-                                String targetAccount = jop.showInputDialog(null, "Enter target account number:", "Transfer", jop.QUESTION_MESSAGE);
-                                int targetIndex = findAcc(targetAccount);
+                                String transferAccount = jop.showInputDialog(null, "Transferring to account number:", "Group 4: Banking Corporation Transfer", jop.QUESTION_MESSAGE);
+                                int targetIndex = findAcc(transferAccount);
 
                                 if(targetIndex != -1 && status.get(targetIndex).equals("Active"))
                                 {
                                     String transferAmount = jop.showInputDialog(null, "Enter amount to transfer:", "Transfer", jop.QUESTION_MESSAGE);
                                     double amount = Double.parseDouble(transferAmount);
 
-                                    if(amount <= balance.get(foundaccIndex))
+                                    // MERON NA DEDUCTION PERO DI AKO HAPPY SA PROCESS NEED PA IPOLISH
+
+
+                                    if(amount <= balance.get(foundaccIndex) && amount > 1000)
                                     {
+                                        double count = amount / 1000;
+                                        double deduct = 25 * count;
+                                        amount = amount - deduct;
+
                                         balance.set(foundaccIndex, balance.get(foundaccIndex) - amount);
                                         balance.set(targetIndex, balance.get(targetIndex) + amount);
-                                        jop.showMessageDialog(null, "Transfer successful!\nTransferred " + amount + " to " + accName.get(targetIndex) + "\nYour new balance: " + balance.get(foundaccIndex), "Transfer", jop.INFORMATION_MESSAGE);
+                                        jop.showMessageDialog(null, "Transfer successful!\nTransferred " + amount + " to " + accName.get(targetIndex) + "\n\nDeduction: " + deduct + "Your new balance: " + balance.get(foundaccIndex), "Transfer", jop.INFORMATION_MESSAGE);
                                     }
                                     else
                                     {
