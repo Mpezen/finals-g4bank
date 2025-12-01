@@ -146,7 +146,7 @@ public class bank
                     if(status.get(foundaccIndex).equals("Admin"))
                     {
 
-                        while (true)
+                        while(true)
                         {
                             String adput = JOptionPane.showInputDialog(null, "What would you like to do?\n" +
                                     "( 1 ) - View Customer Information\n( 2 ) - Search Customer\n( 3 ) - Add New Customer\n" +
@@ -318,9 +318,9 @@ public class bank
                                 }
 
                             } else if (convadput == 'x' || convadput == 'X') {
-                                adminlop = false;
                                 JOptionPane.showMessageDialog(null, "Goodbye " + accName.get(foundaccIndex) + "!", "Group 4 Admin Banking Corporation", JOptionPane.PLAIN_MESSAGE);
-                            }
+                                break;
+                             }
                         }
                     }
 
@@ -401,21 +401,26 @@ public class bank
 
                                 if(targetIndex != -1 && status.get(targetIndex).equals("Active"))
                                 {
-                                    String transferAmount = JOptionPane.showInputDialog(null, "Enter amount to transfer:", "Transfer", JOptionPane.QUESTION_MESSAGE);
+                                    String transferAmount = JOptionPane.showInputDialog(null, "Transfer Amount must be 1000 or higher.\n\nEnter amount to transfer:", "Transfer", JOptionPane.QUESTION_MESSAGE);
                                     double amount = Double.parseDouble(transferAmount);
 
-                                    // MERON NA DEDUCTION PERO DI AKO HAPPY SA PROCESS NEED PA IPOLISH
-
-
-                                    if(amount <= balance.get(foundaccIndex) && amount > 1000)
+                                    if(amount <= balance.get(foundaccIndex) && amount >= 1000)
                                     {
-                                        int count = (int)(amount / 1000);
-                                        double deduct = 25 * count;
-                                        amount = amount - deduct;
+                                        double temp = amount;
+                                        int count = 0;
 
-                                        balance.set(foundaccIndex, balance.get(foundaccIndex) - amount);
-                                        balance.set(targetIndex, balance.get(targetIndex) + amount);
-                                        JOptionPane.showMessageDialog(null, "Transfer successful!\nTransferred " + amount + " to " + accName.get(targetIndex) + "\n\nDeduction: " + deduct + "Your new balance: " + balance.get(foundaccIndex), "Transfer", JOptionPane.INFORMATION_MESSAGE);
+                                        while (temp >= 1000)
+                                        {
+                                            count++;
+                                            temp -= 1000;
+                                        }
+
+                                        double deduct = 25 * count;
+                                        double actual = amount - deduct;
+
+                                        balance.set(foundaccIndex, balance.get(foundaccIndex) - actual);
+                                        balance.set(targetIndex, balance.get(targetIndex) + actual);
+                                        JOptionPane.showMessageDialog(null, "Transfer successful!\nTransferred " + actual + " to " + accName.get(targetIndex) + "\n\nDeduction: " + deduct + "\nYour new balance: " + balance.get(foundaccIndex), "Transfer", JOptionPane.INFORMATION_MESSAGE);
                                     }
                                     else
                                     {
