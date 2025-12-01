@@ -333,6 +333,12 @@ public class bank
                             String transact = JOptionPane.showInputDialog(null, "Please select type of transaction: \n[B] -> Balance Inquiry \n[W] -> Withdrawal\n[D] -> Deposit \n[T] -> Transfer Fund \n[C] -> Cancel"
                                     , "Group 4 Banking Corporation", JOptionPane.QUESTION_MESSAGE);
 
+                            if(transact == null)
+                            {
+                                JOptionPane.showMessageDialog(null, "No Input", "Error", JOptionPane.ERROR_MESSAGE);
+                                break;
+                            }
+
                             char convtrs = transact.charAt(0);
 
                             // ALL THE OUTPUT #4 BANKING KENEME
