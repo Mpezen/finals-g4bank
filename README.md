@@ -1,3 +1,5 @@
+# ✅ Status All done thanks guyss!!! let me know if may na miss out ako sa instructions thanks guouysss!
+
 # GROUP 4 BANKING CORPORATION FINALS PROJECT CASE STUDY
 
 Collaboration using github for experience <3
